@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram, faFacebook } from '@fortawesome/free-brands-svg-icons';
 import { faXTwitter } from '@fortawesome/free-brands-svg-icons';
@@ -8,6 +8,19 @@ import { faBars, faUser } from '@fortawesome/free-solid-svg-icons';
 
 const Header = () => {
   const [listStatus,setListStatus]= useState(false)
+  const[token,setToken]=useState("")
+  const[userDp,setUserDp]=useState("")
+
+  useEffect(()=>{
+    if(sessionStorage.getItem("token")){
+        const token = sessionStorage.getItem("token")
+        setToken(token)
+        const user = JSON.parse(sessionStorage.getItem("user"))
+        setUserDp(user.profile)
+    }
+},[])
+
+
 
   return (
     <>
@@ -27,11 +40,19 @@ const Header = () => {
           <FontAwesomeIcon icon={faXTwitter} />
           <FontAwesomeIcon icon={faFacebook} />
           {/* login link */}
-          <Link to={'/login'}>
+         {!token? <Link to={'/login'}>
             <button className='border border-black rounded px-3 py-2 ms-3 hover:bg-black hover:text-white'>
               <FontAwesomeIcon icon={faUser} className='me-2' /> Login
             </button>
-          </Link>
+          </Link>:
+          <div>
+            <button>
+              <img width={'30px'} height={'30px'} src={userDp==""?"https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-File.png":""} alt="user" />
+
+            </button>
+          </div>
+
+          }
 
         </div>
       </div>

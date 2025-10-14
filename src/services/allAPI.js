@@ -10,6 +10,10 @@ export const registerAPI=async(reqBody)=>{
 }
 
 // login api
+
+export const loginAPI=async(reqBody)=>{
+ return await  commonAPI('POST',`${SERVERURL}/login`,reqBody)
+}
 // home page books api
 // all career api
 // authorised user api - user
