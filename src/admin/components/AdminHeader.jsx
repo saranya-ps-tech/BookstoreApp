@@ -1,8 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPowerOff } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import { userAuthContext } from "../../contextAPI/AuthContext";
+
+
 
 const AdminHeader = () => {
+  const { role, authorisedUser, setAuthorisedUser } = useContext(userAuthContext)
+
+  const navigate = useNavigate()
+
+  const logout = () => {
+    sessionStorage.clear()
+    setAuthorisedUser(false)
+    navigate('/')
+  }
+
   return (
     <>
       <div className="flex justify-between items-center p-3 md:px-0">
@@ -18,9 +32,19 @@ const AdminHeader = () => {
         </div>
 
         {/* logout block */}
-        <button className="border border-black rounded px-3 py-2 ms-3 hover:bg-black hover:text-white">
-          <FontAwesomeIcon icon={faPowerOff} className="me-1" /> Logout
+        <button onClick={logout}
+          className="
+    border border-black rounded px-3 py-2 ms-3 me-3
+    hover:bg-black hover:text-white
+    flex items-center gap-2
+    text-sm sm:text-base">
+
+          <FontAwesomeIcon icon={faPowerOff} className="me-1" />
+
+
+          <span className="hidden sm:inline">Logout</span>
         </button>
+
       </div>
 
       {/* marquee section */}

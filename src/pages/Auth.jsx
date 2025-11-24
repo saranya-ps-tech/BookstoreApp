@@ -1,14 +1,18 @@
 import { faEye, faEyeSlash, faUser } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
-import { loginAPI, registerAPI } from '../services/allAPI'
+import { googleLoginAPI, loginAPI, registerAPI } from '../services/allAPI'
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode";
+import { userAuthContext } from '../contextAPI/AuthContext'
 
 
 
 function Auth({ register }) {
+
+  const { role, authorisedUser, setAuthorisedUser } = useContext(userAuthContext)
   const navigate = useNavigate()
   const [viewPasswordStatus, setViewPasswordStatus] = useState(false)
   const [userDetails, setUserDetails] = useState({ username: '', email: '', password: '' })
@@ -58,6 +62,7 @@ function Auth({ register }) {
           toast.success("Login successfully!!!")
           sessionStorage.setItem("user", JSON.stringify(result.data.user))
           sessionStorage.setItem("token", result.data.token)
+          setAuthorisedUser(true)
           setTimeout(() => {
             if (result.data.user.role == "admin") {
               navigate('/admin-dashboard')
@@ -80,6 +85,36 @@ function Auth({ register }) {
       } catch (err) {
         console.log(err);
       }
+    }
+  }
+
+  const handleGoogleLogin = async (credentialResponse) => {
+    console.log("Inside handleGoogleLogin");
+    const credential = credentialResponse.credential
+    const details = jwtDecode(credential)
+    console.log(details);
+
+    try {
+      const result = await googleLoginAPI({ username: details.name, email: details.email, password: 'googlepswd', profile: details.picture })
+      console.log(result);
+      if (result.status == 200) {
+        toast.success("Login Successfull!!!")
+        sessionStorage.setItem("user", JSON.stringify(result.data.user))
+        sessionStorage.setItem("token", result.data.token)
+        setTimeout(() => {
+          if (result.data.user.role == "admin") {
+            navigate('/admin-dashboard')
+          } else {
+            navigate('/')
+          }
+        }, 2500);
+      } else {
+        toast.error("Something went wrong!!!")
+      }
+
+    } catch (error) {
+      console.log(err);
+
     }
   }
 
@@ -132,16 +167,16 @@ function Auth({ register }) {
               {!register && <p>----------------------or------------------------</p>}
               {!register && (
                 <div className="my-5 flex justify-center w-full">
-                  <GoogleOAuthProvider clientId="304531247476-58f940f3b0dgrupg95cdo8b51fspupdv.apps.googleusercontent.com">
-                    <GoogleLogin
-                      onSuccess={credentialResponse => {
-                        console.log(credentialResponse);
-                      }}
-                      onError={() => {
-                        console.log('Login Failed');
-                      }}
-                    />
-                  </GoogleOAuthProvider>
+                  <GoogleLogin
+                    onSuccess={credentialResponse => {
+                      console.log(credentialResponse);
+                      handleGoogleLogin(credentialResponse)
+                    }}
+                    onError={() => {
+                      console.log('Login Failed');
+                    }}
+                  />
+
                 </div>
               )}
             </div>
