@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import AdminHeader from '../components/AdminHeader'
 import Footer from '../../components/Footer'
-import AdminSideBar from '../components/AdminSideBar'
+import AdminSideBar from '../components/AdminSidebar'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLocationDot, faTrash } from '@fortawesome/free-solid-svg-icons'
