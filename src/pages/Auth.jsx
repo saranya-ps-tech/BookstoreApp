@@ -101,6 +101,7 @@ function Auth({ register }) {
         toast.success("Login Successfull!!!")
         sessionStorage.setItem("user", JSON.stringify(result.data.user))
         sessionStorage.setItem("token", result.data.token)
+        setAuthorisedUser(true)
         setTimeout(() => {
           if (result.data.user.role == "admin") {
             navigate('/admin-dashboard')
