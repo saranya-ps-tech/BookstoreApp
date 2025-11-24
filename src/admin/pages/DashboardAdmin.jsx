@@ -1,7 +1,7 @@
 import React from 'react'
 import AdminHeader from '../components/AdminHeader'
 import Footer from '../../components/Footer'
-import AdminSideBar from '../components/AdminSideBar'
+import AdminSideBar from '../components/AdminSidebar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBook, faUser, faUsers } from '@fortawesome/free-solid-svg-icons'
 import { BarChart, Legend, XAxis, YAxis, CartesianGrid, Tooltip, Bar, ResponsiveContainer, PieChart, Pie } from 'recharts';

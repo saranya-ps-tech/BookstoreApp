@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import AdminHeader from '../components/AdminHeader'
 import Footer from '../../components/Footer'
-import AdminSideBar from '../components/AdminSideBar'
+import AdminSideBar from '../components/AdminSidebar'
 import {  getAllUsersAPI, listAllBooksAPI, updateBookStatusAPI } from '../../services/allAPI'
 import SERVERURL from '../../services/serverURL'
 
