@@ -96,7 +96,7 @@ function Edit() {
 
   return (
     <>
-      <button onClick={() => setOffCanvasStatus(true)} className="text-blue-600 border border-blue-600 rounded p-3 hover:text-blue-600"><FontAwesomeIcon
+      <button onClick={() => setOffCanvasStatus(true)} className="text-blue-600 border border-blue-600 rounded p-3 hover:bg-blue-600 text-white"><FontAwesomeIcon
         icon={faPenToSquare} /> Edit</button>
       {/* offCanvas */}
       {offCanvasStatus &&
